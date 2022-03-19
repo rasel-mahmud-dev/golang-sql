@@ -21,7 +21,7 @@ func main() {
 
  
  if PORT = os.Getenv("PORT"); PORT == "" {
-  PORT = "127.0.0.1"
+  PORT = "4000"
  }
  
  if HOST = os.Getenv("HOST"); HOST == "" {
