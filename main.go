@@ -190,7 +190,7 @@ func main() {
   cfg := mysql.Config{
    User:   config.DATABASE_USERNAME,
    Passwd: config.DATABASE_PASSWORD,
-   Net:    "ip",
+   Net:    "tcp",
    Addr:   config.DATABASE_HOST + ":" + config.DATABASE_PORT,
    DBName: config.DATABASE_NAME,
   }
@@ -272,14 +272,25 @@ func main() {
   }
   defer db.Close()
  
-  userTableSql := `SELECT username from users where user.id = ?`
-  var username string
-  err = db.QueryRow(userTableSql, 1).Scan(&username)
+  userTableSql := `SELECT username from users`
+  
+  var usernames []string
+  
+  rows, err := db.Query(userTableSql)
   if err != nil {
   fmt.Fprint(w, err)
    return
   }
-  fmt.Fprint(w, username)
+  
+  for rows.Next() {
+   var usename string
+   rows.Scan(&usename)
+   usernames = append(usernames, usename)
+  }
+  
+  fmt.Println(usernames)
+  
+  fmt.Fprint(w, usernames)
  
  })
   
