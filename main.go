@@ -32,8 +32,15 @@ func main() {
  
  
  http.HandleFunc("/sql", func(w http.ResponseWriter, r *http.Request) {
- 
-  db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@cloudsql(%s)/", config.DATABASE_NAME, config.DATABASE_PASSWORD, config.DATABASE_HOST))
+
+ // postgres://<user>:<password>@<internal_name>:5432/<database>
+  
+  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
+  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
+  connectionStr := config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@tcp(" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + ")/" + config.DATABASE_NAME
+  fmt.Println(connectionStr)
+  
+  db, err := sql.Open("mysql", connectionStr)
   if err != nil {
    panic(err)
   }

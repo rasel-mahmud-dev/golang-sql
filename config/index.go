@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -12,7 +11,7 @@ var (
 	PORT = "4000"
 	DATABASE_NAME = ""
 	DB_DRIVER = ""
-	DATABASE_PORT = 0
+	DATABASE_PORT = ""
 	DATABASE_HOST = ""
 	DATABASE_USERNAME = ""
 	DATABASE_PASSWORD = ""
@@ -29,7 +28,7 @@ func Envload()  {
 	
 	DB_DRIVER = os.Getenv("DB_DRIVER")
 	PORT = os.Getenv("PORT")
-	DATABASE_PORT, _ = strconv.Atoi(os.Getenv("DATABASE_PORT"))
+	DATABASE_PORT = os.Getenv("DATABASE_PORT")
 	DATABASE_NAME = os.Getenv("DATABASE_NAME")
 	DATABASE_HOST = os.Getenv("DATABASE_HOST")
 	DATABASE_USERNAME = os.Getenv("DATABASE_USERNAME")
