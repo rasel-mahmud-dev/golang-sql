@@ -1,7 +1,7 @@
-module github.com/qoddiapps/getting-started-with-golang
+module getting-started-with-golang
 
 // +qoddi goVersion go1.12
-go 1.12
+go 1.17
 
 require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
