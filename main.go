@@ -1,10 +1,11 @@
 package main
+
 import (
- "database/sql"
  "fmt"
  _ "github.com/go-sql-driver/mysql"
  _ "github.com/lib/pq"
- "golang-sql/config"
+ 
+ // "golang-sql/config"
  "net/http"
  "os"
 )
@@ -12,11 +13,16 @@ import (
 func main() {
  
  
- config.Envload()
+ // config.Envload()
  
  var HOST string
+ var PORT string
  
 
+ 
+ if PORT = os.Getenv("PORT"); PORT == "" {
+  PORT = "127.0.0.1"
+ }
  
  if HOST = os.Getenv("HOST"); HOST == "" {
   HOST = "127.0.0.1"
@@ -31,26 +37,26 @@ func main() {
  
  
  
- http.HandleFunc("/sql", func(w http.ResponseWriter, r *http.Request) {
-
- // postgres://<user>:<password>@<internal_name>:5432/<database>
-  
-  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
-  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
-  connectionStr := config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@tcp(" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + ")/" + config.DATABASE_NAME
-  fmt.Println(connectionStr)
-  
-  db, err := sql.Open("mysql", connectionStr)
-  if err != nil {
-   panic(err)
-  }
-  defer db.Close()
-  
-  fmt.Fprintf(w, "DB Connected")
- })
+ // http.HandleFunc("/sql", func(w http.ResponseWriter, r *http.Request) {
+ //
+ // // postgres://<user>:<password>@<internal_name>:5432/<database>
+ //
+ //  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
+ //  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
+ //  connectionStr := config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@tcp(" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + ")/" + config.DATABASE_NAME
+ //  fmt.Println(connectionStr)
+ //
+ //  db, err := sql.Open("mysql", connectionStr)
+ //  if err != nil {
+ //   panic(err)
+ //  }
+ //  defer db.Close()
+ //
+ //  fmt.Fprintf(w, "DB Connected")
+ // })
+ //
  
- 
- err := http.ListenAndServe(HOST+":"+config.PORT, nil)
+ err := http.ListenAndServe(HOST+":"+PORT, nil)
  if err != nil {
   return
  }
