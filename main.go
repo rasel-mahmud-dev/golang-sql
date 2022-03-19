@@ -261,7 +261,7 @@ func main() {
   cfg := mysql.Config{
    User:   config.DATABASE_USERNAME,
    Passwd: config.DATABASE_PASSWORD,
-   Net:    "ip",
+   Net:    "tcp",
    Addr:   config.DATABASE_HOST + ":" + config.DATABASE_PORT,
    DBName: config.DATABASE_NAME,
   }
