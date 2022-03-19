@@ -13,14 +13,10 @@ func main() {
  
  
  config.Envload()
-
  
- var PORT string
  var HOST string
  
- if PORT = os.Getenv("PORT"); PORT == "" {
-  PORT = "3000"
- }
+
  
  if HOST = os.Getenv("HOST"); HOST == "" {
   HOST = "127.0.0.1"
@@ -47,7 +43,8 @@ func main() {
  })
  
  
- 
- 
- http.ListenAndServe(HOST+":" + PORT, nil)
+ err := http.ListenAndServe(HOST+":"+config.PORT, nil)
+ if err != nil {
+  return
+ }
 }

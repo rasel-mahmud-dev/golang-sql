@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	PORT = 0
+	PORT = "4000"
 	DATABASE_NAME = ""
 	DB_DRIVER = ""
 	DATABASE_PORT = 0
@@ -28,7 +28,7 @@ func Envload()  {
 	
 	
 	DB_DRIVER = os.Getenv("DB_DRIVER")
-	PORT, _ = strconv.Atoi(os.Getenv("PORT"))
+	PORT = os.Getenv("PORT")
 	DATABASE_PORT, _ = strconv.Atoi(os.Getenv("DATABASE_PORT"))
 	DATABASE_NAME = os.Getenv("DATABASE_NAME")
 	DATABASE_HOST = os.Getenv("DATABASE_HOST")
