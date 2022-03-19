@@ -2,6 +2,8 @@ package main
 
 import (
  "database/sql"
+ "github.com/go-sql-driver/mysql"
+ 
  // "encoding/json"
  "fmt"
  _ "github.com/go-sql-driver/mysql"
@@ -148,7 +150,7 @@ func main() {
  
  config.Envload()
  
- connectionStr := config.DATABASE_NAME + ":" + config.DATABASE_PASSWORD  + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME
+ // connectionStr := config.DATABASE_NAME + ":" + config.DATABASE_PASSWORD  + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME
  
  var HOST string
  var PORT string
@@ -177,8 +179,15 @@ func main() {
   // InitialCreateAllTable()
   // InitialData()
   //
+  cfg := mysql.Config{
+   User:   config.DATABASE_USERNAME,
+   Passwd: config.DATABASE_PASSWORD,
+   Net:    "tcp",
+   Addr:   config.DATABASE_HOST + ":" + config.DATABASE_PORT,
+   DBName: config.DATABASE_NAME,
+  }
  
-  db, err := sql.Open("mysql", connectionStr)
+  db, err := sql.Open("mysql", cfg.FormatDSN())
   if err != nil {
    panic(err)
   }
