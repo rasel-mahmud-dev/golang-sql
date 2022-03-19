@@ -45,7 +45,7 @@ func main() {
  //  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
  //  connectionStr := os.Getenv("DATABASE_USERNAME") + ":" + os.Getenv("DATABASE_PASSWORD") + "@tcp(" + os.Getenv("DATABASE_HOST") + ":" + os.Getenv("DATABASE_PORT") + ")/" + os.Getenv("DATABASE_NAME")
   
-  connectionStr := config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@tcp(" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + ")/" + config.DATABASE_NAME
+  connectionStr := config.MYSQL_USER + ":" + config.MYSQL_PASSWORD + "@tcp(" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + ")/" + config.DATABASE_NAME
  
   db, err := sql.Open("mysql", connectionStr)
   if err != nil {
@@ -63,8 +63,6 @@ func main() {
   })
  })
  
- 
- fmt.Println(config.DATABASE_USERNAME)
  
  
  err := http.ListenAndServe(HOST+":"+PORT, nil)
