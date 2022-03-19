@@ -1,9 +1,9 @@
 package main
 import (
  "fmt"
+ _ "github.com/lib/pq"
  "net/http"
  "os"
-  _ "github.com/lib/pq"
 )
 
 func main() {
@@ -14,5 +14,6 @@ func main() {
  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
   fmt.Fprintf(w, "Hello World from path: %s\n", r.URL.Path)
  })
+ 
  http.ListenAndServe(":" + PORT, nil)
 }
