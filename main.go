@@ -148,7 +148,7 @@ func main() {
  
  config.Envload()
  
- connectionStr := config.DATABASE_NAME + ":" + config.DATABASE_PASSWORD + "@tcp(" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + ")/" + config.DATABASE_NAME
+ connectionStr := config.DATABASE_NAME + ":" + config.DATABASE_PASSWORD  + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME
  
  var HOST string
  var PORT string
@@ -202,6 +202,8 @@ func main() {
  
  fmt.Println("Craeted")
   fmt.Fprint(w, "Created")
+  
+  
   // // postgres://<user>:<password>@<internal_name>:5432/<database>
  //
  //  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
