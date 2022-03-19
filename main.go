@@ -272,11 +272,14 @@ func main() {
   }
   defer db.Close()
  
-  userTableSql := `SELECT username from users`
+  userTableSql := `SELECT username from users where user.id = ?`
   var username string
-  db.QueryRow(userTableSql).Scan(&username)
-  
- fmt.Fprint(w, username)
+  err = db.QueryRow(userTableSql, 1).Scan(&username)
+  if err != nil {
+  fmt.Fprint(w, err)
+   return
+  }
+  fmt.Fprint(w, username)
  
  })
   
