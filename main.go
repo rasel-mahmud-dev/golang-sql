@@ -2,6 +2,7 @@ package main
 
 import (
  "database/sql"
+ "encoding/json"
  "fmt"
  
  _ "github.com/go-sql-driver/mysql"
@@ -51,6 +52,12 @@ func main() {
    panic(err)
   }
   defer db.Close()
+ 
+  rows, _ := db.Exec(`SELECT 100 + 1 AS solution`)
+ 
+ json.NewEncoder(w).Encode(map[string]interface{}{
+  "rows": rows,
+ })
  
   fmt.Fprintf(w, "DB Connected")
  })
