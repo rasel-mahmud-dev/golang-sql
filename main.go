@@ -4,10 +4,8 @@ import (
  "database/sql"
  "encoding/json"
  "fmt"
- 
  _ "github.com/go-sql-driver/mysql"
- // _ "github.com/lib/pq"
- // "golang-sql/config"
+ "github.com/rasel-mahmud-dev/golang-sql/config"
  "net/http"
  "os"
 )
@@ -15,7 +13,7 @@ import (
 func main() {
  
  
- // config.Envload()
+ config.Envload()
  
  var HOST string
  var PORT string
@@ -45,7 +43,9 @@ func main() {
  //
  //  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
  //  // db, err := sql.Open("mysql", config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + "/" + config.DATABASE_NAME)
-  connectionStr := os.Getenv("DATABASE_USERNAME") + ":" + os.Getenv("DATABASE_PASSWORD") + "@tcp(" + os.Getenv("DATABASE_HOST") + ":" + os.Getenv("DATABASE_PORT") + ")/" + os.Getenv("DATABASE_NAME")
+ //  connectionStr := os.Getenv("DATABASE_USERNAME") + ":" + os.Getenv("DATABASE_PASSWORD") + "@tcp(" + os.Getenv("DATABASE_HOST") + ":" + os.Getenv("DATABASE_PORT") + ")/" + os.Getenv("DATABASE_NAME")
+  
+  connectionStr := config.DATABASE_USERNAME + ":" + config.DATABASE_PASSWORD + "@tcp(" + config.DATABASE_HOST + ":" + config.DATABASE_PORT + ")/" + config.DATABASE_NAME
  
   db, err := sql.Open("mysql", connectionStr)
   if err != nil {
@@ -53,14 +53,18 @@ func main() {
   }
   defer db.Close()
  
-  rows, _ := db.Exec(`SELECT 100 + 1 AS solution`)
+  var result int
+  db.QueryRow(`SELECT 100 + 1 AS r`).Scan(&result)
  
- json.NewEncoder(w).Encode(map[string]interface{}{
-  "rows": rows,
+  fmt.Println(result)
+  
+  json.NewEncoder(w).Encode(map[string]interface{}{
+   "rows": result,
+  })
  })
  
-  fmt.Fprintf(w, "DB Connected")
- })
+ 
+ fmt.Println(config.DATABASE_USERNAME)
  
  
  err := http.ListenAndServe(HOST+":"+PORT, nil)
