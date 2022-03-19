@@ -1,1 +1,1 @@
-web: bin/getting-started-with-golang
+web: bin/golang-sql
