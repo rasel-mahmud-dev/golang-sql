@@ -173,7 +173,15 @@ func main() {
   fmt.Fprintf(w, "Hello World from path: %s\n", r.URL.Path)
  })
  
-
+ http.HandleFunc("/get", func(w http.ResponseWriter, r *http.Request) {
+ 
+ 
+ 
+ })
+ 
+ 
+ 
+ 
  http.HandleFunc("/sql", func(w http.ResponseWriter, r *http.Request) {
   
   // InitialCreateAllTable()
@@ -182,7 +190,7 @@ func main() {
   cfg := mysql.Config{
    User:   config.DATABASE_USERNAME,
    Passwd: config.DATABASE_PASSWORD,
-   Net:    "tcp",
+   Net:    "ip",
    Addr:   config.DATABASE_HOST + ":" + config.DATABASE_PORT,
    DBName: config.DATABASE_NAME,
   }
@@ -209,6 +217,32 @@ func main() {
    return
   }
  
+  _, err = db.Exec(`
+			INSERT INTO users(username, email, role, password, avatar)
+			VALUES
+			(
+				'raselt',
+				'rasel@gmail.com',
+				'admin',
+				'$2a$08$Tj9kveUf9GzZCn4l70wqdeh8Uq.FK2T6sYXcGGvtqAkFUWPdU3DZO',
+				'https://res.cloudinary.com/dbuvg9h1e/image/upload/v1639027976/my-avatar-300x300.jpg'
+			),
+			(
+				'raju',
+				'raju@gmail.com',
+				'user',
+				'$2a$08$Tj9kveUf9GzZCn4l70wqdeh8Uq.FK2T6sYXcGGvtqAkFUWPdU3DZO',
+				'https://res.cloudinary.com/dbuvg9h1e/image/upload/v1639027976/my-avatar-300x300.jpg'
+			)
+		`)
+   if err != nil {
+    fmt.Println(err)
+   } else {
+    fmt.Println("Users Inserted ")
+   }
+  
+  
+ 
  fmt.Println("Craeted")
   fmt.Fprint(w, "Created")
   
@@ -223,9 +257,30 @@ func main() {
  
  })
  
+ http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
+  cfg := mysql.Config{
+   User:   config.DATABASE_USERNAME,
+   Passwd: config.DATABASE_PASSWORD,
+   Net:    "ip",
+   Addr:   config.DATABASE_HOST + ":" + config.DATABASE_PORT,
+   DBName: config.DATABASE_NAME,
+  }
  
+  db, err := sql.Open("mysql", cfg.FormatDSN())
+  if err != nil {
+   panic(err)
+  }
+  defer db.Close()
  
- err := http.ListenAndServe(HOST+":"+PORT, nil)
+  userTableSql := `SELECT username from users`
+  var username string
+  db.QueryRow(userTableSql).Scan(&username)
+  
+ fmt.Fprint(w, username)
+ 
+ })
+  
+  err := http.ListenAndServe(HOST+":"+PORT, nil)
  if err != nil {
   return
  }
